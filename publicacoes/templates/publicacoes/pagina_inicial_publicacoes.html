@@ -1,0 +1,19 @@
+{% extends "ses_base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block customcontent %}
+
+    {{ page.intro|richtext }}
+
+    <div class="card">
+        <div class="card-content">
+            <div class="collection">
+            {% for post in page.get_children %}
+                <a class="blue-text collection-item" href="{% pageurl post %}"> {{ post.title }} </a>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+{% load static wagtailuserbar %}
+{% block content %}
+<header>
+    <nav class="blue darken-4" role="navigation">
+      <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo"><img class="logo-image" src="{% static 'img/logo_governo.png' %}"></a>
+        <ul class="right hide-on-med-and-down">
+            {% for page in request.site.root_page.get_children %}
+                <li {% if self.title == page.title %} class="active" {% endif %}><a href="{% pageurl page %}">{{ page.title }}</a></li>
+            {% endfor %}
+        </ul>
+        <ul id="nav-mobile" class="side-nav" style="transform: translateX(-100%);">
+            {% for page in request.site.root_page.get_children %}
+                <li><a href="{% pageurl page %}">{{ page.title }}</a></li>
+            {% endfor %}
+        </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+      </div>
+    </nav>
+
+{% if self.get_ancestors|length > 1 %}
+    <nav class="blue darken-4">
+            <div class="nav-wrapper container">
+              <div class="col s12">
+                  {% for page in self.get_ancestors %}
+                      {% if page.is_root == False %}
+                          <a href="{% pageurl page %}" class="breadcrumb">{{ page.title }}</a>
+                      {% endif %}
+                  {% endfor %}
+              </div>
+            </div>
+    </nav>
+{% endif %}
+</header>
+
+<main>
+    <div class="container">
+        {% block contenttitle %}<h3>{{ page.title }}</h3>{% endblock %}
+        {% block customcontent %}{% endblock %}
+    </div>
+</main>
+
+<footer class="page-footer grey">
+  <div class="footer-copyright">
+    <div class="container">
+    <a class="grey-text text-lighten-3" href="https://www.saude.rj.gov.br/">Secretaria de Estado de Saúde do Rio de Janeiro</a>
+    </div>
+  </div>
+</footer>
+
+{% endblock %}
